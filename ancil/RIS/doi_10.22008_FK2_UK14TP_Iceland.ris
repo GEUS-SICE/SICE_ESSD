@@ -1,0 +1,16 @@
+Provider: GEUS Dataverse
+Content: text/plain; charset="utf-8"
+TY  - DATA
+T1  - SICEv2.3.2 Iceland snow and ice broadband albedo and surface optical properties from Sentinel-3’s OLCI at 1000 m resolution, 2017-2023
+AU  - Wehrlé, Adrien
+AU  - Box, Jason
+AU  - Vandecrux, Baptiste
+AU  - Mankoff, Ken
+DO  - doi:10.22008/FK2/UK14TP
+ET  - V3
+PY  - 2022
+RI  - null
+SE  - 2022-06-15 21:02:27.646
+UR  - https://doi.org/10.22008/FK2/UK14TP
+PB  - GEUS Dataverse
+ER  - 

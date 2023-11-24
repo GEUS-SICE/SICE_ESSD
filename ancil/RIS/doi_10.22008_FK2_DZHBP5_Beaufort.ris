@@ -1,0 +1,16 @@
+Provider: GEUS Dataverse
+Content: text/plain; charset="utf-8"
+TY  - DATA
+T1  - SICEv2.3.2 Beaufort snow and ice broadband albedo and surface optical properties from Sentinel-3’s OLCI at 1000 m resolution, 2017-2023
+AU  - Wehrlé, Adrien
+AU  - Box, Jason
+AU  - Vandecrux, Baptiste
+AU  - Mankoff, Ken
+AU  - Bahbah, Rasmus
+DO  - doi:10.22008/FK2/DZHBP5
+ET  - V1
+PY  - 2023
+SE  - 2023-11-21 10:01:17.615
+UR  - https://doi.org/10.22008/FK2/DZHBP5
+PB  - GEUS Dataverse
+ER  - 

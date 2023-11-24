@@ -61,8 +61,7 @@ def datesx(date0,date1):
     print(dates)
     return dates
 
-raw_data_path='/Users/jason/0_dat/S3/opendap/Greenland/'
-raw_data_path='/Users/jason/0_dat/S3/opendap/Greenland.v0/'
+raw_data_path='/Users/jason/0_dat/S3/opendap/Greenland_500m/'
 
 doys=pd.to_datetime(np.arange(1,366), format='%j')
 months=doys.strftime('%b')
@@ -72,14 +71,14 @@ months_int=doys.strftime('%m').astype(int)
 years=np.arange(2017,2018).astype(str)
 # years=np.arange(2022,2023).astype(str)
 years=np.arange(2018,2019).astype(str)
-# years=np.arange(2023,2024).astype(str)
+years=np.arange(2023,2024).astype(str)
 # years=np.arange(2021,2022).astype(str)
 # years=np.arange(2017,2024).astype(str)
 
 do_cum=0
 cum_name='' ; cum_name2='cumulative'
 
-ni=5424 ; nj=2959
+ni=5424 ; nj=3007
 
 mask_file="/Users/jason/Dropbox/S3/masks/Greenland_500m.tiff"
 mask = rasterio.open(mask_file).read(1)
@@ -187,10 +186,10 @@ for year in years:
     dates=datesx(date(int(year), 8, 19),date(int(year), 9, 30))
     dates=datesx(date(int(year), 9, 20),date(int(year), 9, 25))
     dates=datesx(date(int(year), 7, 8),date(int(year), 7, 15))
-    dates=datesx(date(int(year), 8, 20),date(int(year), 8, 30))
-    dates=datesx(date(int(year), 5, 25),date(int(year), 9, 25))
-    dates=datesx(date(int(year), 7, 1),date(int(year), 9, 25))
-    dates=datesx(date(int(year), 7, 15),date(int(year), 8, 30))
+    dates=datesx(date(int(year), 8, 15),date(int(year), 8, 30))
+    # dates=datesx(date(int(year), 5, 25),date(int(year), 9, 25))
+    # dates=datesx(date(int(year), 7, 1),date(int(year), 9, 25))
+    # dates=datesx(date(int(year), 7, 15),date(int(year), 8, 30))
     # dates=datesx(date(int(year), 8, 23),date(int(year), 8, 23))
     
                     
