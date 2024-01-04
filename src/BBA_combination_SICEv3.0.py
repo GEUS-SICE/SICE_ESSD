@@ -58,7 +58,7 @@ def datesx(date0,date1):
 def BBA_combination(write_out,
                     fn_band_1,fn_band_2,fn_band_3,fn_band_4,
                     fn_albedo_bb_planar_sw,
-                    ofile):
+                    ofile,ofile_empirical):
     
     BBA_combo=np.zeros((5424, 3007))*np.nan
 
@@ -106,6 +106,9 @@ def BBA_combination(write_out,
             with rasterio.Env():
                 with rasterio.open(ofile, 'w', **profile) as dst:
                     dst.write(BBA_combo, 1)
+            with rasterio.Env():
+                with rasterio.open(ofile_empirical, 'w', **profile) as dst:
+                    dst.write(temp, 1)
     return None
 
 
@@ -126,7 +129,7 @@ for year in years:
     # dates=datesx(date(int(year), 7, 22),date(int(year), 7, 22))
     # dates=datesx(date(int(year), 8, 2),date(int(year), 8, 2))
     dates=datesx(date(int(year), 5, 1),date(int(year), 9, 30))
-    dates=datesx(date(int(year), 9, 25),date(int(year), 9, 30))
+    dates=datesx(date(int(year), 7, 4),date(int(year), 7, 4))
     
     
     for datex in dates:
@@ -138,5 +141,6 @@ for year in years:
                         f'/Users/jason/0_dat/S3/opendap/Greenland_500m/{yearx}/{datex}_r_TOA_17.tif',
                         f'/Users/jason/0_dat/S3/opendap/Greenland_500m/{yearx}/{datex}_r_TOA_21.tif',
                         f'/Users/jason/0_dat/S3/opendap/Greenland_500m/{yearx}/{datex}_albedo_bb_planar_sw.tif',
-                        f'/Users/jason/0_dat/S3/opendap/Greenland_500m/{yearx}/{datex}_BBA_combination.tif'
+                        f'/Users/jason/0_dat/S3/opendap/Greenland_500m/{yearx}/{datex}_BBA_combination.tif',
+                        f'/Users/jason/0_dat/S3/opendap/Greenland_500m/{yearx}/{datex}_BBA_empirical.tif'
                         )

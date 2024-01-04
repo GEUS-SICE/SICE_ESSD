@@ -72,11 +72,12 @@ if os.getlogin() == 'jason':
 os.chdir(base_path)
 
 ##! choose a data version
-version_index=0
+version_index=1
 resolution=['1000','500']
 version_number=['2.3.2','3.']
 ##! choose a region
 region='NovayaZemlya'
+region='Greenland'
 
 # projection info
 WGSProj = CRS.from_string("+init=EPSG:4326") # source projection
@@ -125,20 +126,25 @@ def ExportGeoTiff(x,y,z,crs,path):
 
 ##! choose year range
 years=np.arange(2017,2023+1).astype(str)
-# years=np.arange(2019,2020).astype(str)
+years=np.arange(2019,2020).astype(str)
 # years=np.arange(2017,2018).astype(str)
 # years=np.arange(2018,2019).astype(str)
 # years=np.arange(2020,2021).astype(str)
 # years=np.arange(2021,2022).astype(str)
-# years=np.arange(2022,2023).astype(str)
-# years=np.arange(2023,2024).astype(str)
+years=np.arange(2022,2023).astype(str)
+years=np.arange(2023,2024).astype(str)
  
 for year in years:
 
     ##! choose date range
-    dates=datesx(date(int(year), 8, 2),date(int(year), 8, 2))
-    dates=datesx(date(int(year), 5, 1),date(int(year), 9, 30))
-    dates=datesx(date(int(year), 5, 1),date(int(year), 5, 2))
+    # dates=datesx(date(int(year), 8, 2),date(int(year), 8, 2))
+    # dates=datesx(date(int(year), 5, 1),date(int(year), 9, 30))
+    # dates=datesx(date(int(year), 5, 1),date(int(year), 5, 2))
+    # dates=datesx(date(int(year), 7, 4),date(int(year), 7, 4))
+    # dates=datesx(date(int(year), 8, 6),date(int(year), 8, 6))
+    # dates=datesx(date(int(year), 8, 23),date(int(year), 8, 23))
+    dates=datesx(date(2022, 8, 19),date(2022, 8, 19))
+    dates=datesx(date(2023, 7, 4),date(2023, 7, 4))
 
     ##! choose what bands you need
     bands=['albedo_bb_planar_sw','factor']
@@ -155,18 +161,27 @@ for year in years:
     bands = ["rBRR_02", "rBRR_03", "rBRR_04", "rBRR_05", "rBRR_06", "rBRR_07", "rBRR_08", "rBRR_09", "rBRR_10", "rBRR_11", "rBRR_12", "rBRR_21"]
     bands = ["r_TOA_01", "r_TOA_06", "r_TOA_17", "r_TOA_21",'albedo_bb_planar_sw']
     # bands = ["r_TOA_05"]
-    # bands = ["r_TOA_02", "r_TOA_06", "r_TOA_08", "r_TOA_21"]
+    bands = ["r_TOA_02", "r_TOA_06", "r_TOA_08", "r_TOA_21"]
     # bands=['r_TOA_10','r_TOA_11']
 
-    # bands=['r_TOA_02','r_TOA_10','r_TOA_11','r_TOA_21']
+    # bands=["rBRR_01" ,"rBRR_02" ,"rBRR_03", "rBRR_04", "rBRR_05","rBRR_06" ,"rBRR_07" ,"rBRR_08", "rBRR_09",\
+    #           "rBRR_10" ,"rBRR_11" ,"rBRR_16" ,"rBRR_17", "rBRR_18", "rBRR_19"\
+    #           ,"rBRR_21" ]
+    bands=["r_TOA_01" ,"r_TOA_02" ,"r_TOA_03", "r_TOA_04", "r_TOA_05","r_TOA_06" ,"r_TOA_07" ,"r_TOA_08", "r_TOA_09",\
+              "r_TOA_10" ,"r_TOA_11" ,"r_TOA_16" ,"r_TOA_17", "r_TOA_18", "r_TOA_19"\
+              ,"r_TOA_21" ]
+    bands=["r_TOA_02" ,"r_TOA_10"]
+        # bands=['saa', 'sza', 'vaa', 'vza', 'O3_SICE']
+
+        # bands=['r_TOA_02','r_TOA_10','r_TOA_11','r_TOA_21']
     # bands=['albedo_bb_planar_sw','snow_specific_surface_area']
     # bands=['sza']
     # bands=['r_TOA_21']
-    # bands=['r_TOA_04'] # greenish
+    # bands=['r_TOA_08']
     # bands=['r_TOA_06','r_TOA_08','r_TOA_02'] 
     # bands=['albedo_bb_planar_sw','r_TOA_06','r_TOA_08']
     
-    bands=['BBA_combination']
+    # bands=['BBA_combination']
     
     # ############### main code
     
@@ -186,7 +201,7 @@ for year in years:
     # loop over dates
     for d in dates:
         if version_index==0:
-            DATASET_ID = f'SICEv2.3.2_{region}_1000m_' + d.replace('-', '_') + '.nc'
+            DATASET_ID = f'SICEv2.3.2_{region}_1000m_daily' + d.replace('-', '_') + '.nc'
         else:
             DATASET_ID = 'sice_500_' + d.replace('-', '_') + '.nc'
 
@@ -196,10 +211,12 @@ for year in years:
             ofile=output_path + d + '_' + var + '.tif'
             test_file = Path(ofile)
             print(f'gathering {d} {var}')
-            
+
+
             if not(test_file.is_file()):
                 fn=f'https://thredds.geus.dk/thredds/dodsC/SICE_{resolution[version_index]}m/{region}/{DATASET_ID}'
                 # print(fn)
+                # ds = xr.open_dataset(fn)
                 
                 try:
                     ds = xr.open_dataset(fn)
