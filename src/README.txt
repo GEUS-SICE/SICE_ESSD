@@ -1,0 +1,1 @@
+Greenland_500m.tiff is in ~/Dropbox/S3/ancil/

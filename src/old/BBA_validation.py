@@ -51,24 +51,7 @@ names=meta.name
 n_AWS=len(names)
 
 
-# fn=f'./data/colocated_AWS_SICE/all_may-sept_2017-2023_{res}_{var}.csv'
-
-sensor='OLCI'
-inpath='/Users/jason/0_dat/S3/opendap/' ; outpath='colocated_AWS_SICE'
-var='albedo_bb_planar_sw'
-var='BBA_combination'
-ver='Greenland_500m'
-
-var='BBA_combination'
-ver='Greenland_1000m'
-
-sensor='MODIS'
-inpath='/Users/jason/0_dat/' ; outpath='colocated_AWS_'+sensor
-os.system('mkdir -p ./data/'+outpath)
-var='BSA'
-ver='MCD43'
-
-fn=f'./data/{outpath}/all_may-sept_2017-2023_{ver}_{var}.csv'
+fn=f'./data/colocated_AWS_SICE/all_may-sept_2017-2023_{res}_{var}.csv'
 os.system('ls -lF '+fn)
 df=pd.read_csv(fn)
 print(df.columns)
@@ -81,8 +64,8 @@ print(df.columns)
 
 # compute RMSD for snow
 thresh_bare_ice=0.565
-v=( (np.isfinite(df.alb_sat)) & (np.isfinite(df.alb_AWS)) & (df.alb_sat<1) & (df.alb_AWS<0.95) & (df.cloud<cld_thresh) & (df.alb_sat>thresh_bare_ice)& (df.alb_AWS>thresh_bare_ice) )
-x=df.alb_sat[v] ; y=df.alb_AWS[v]
+v=( (np.isfinite(df.alb_s3)) & (np.isfinite(df.alb_AWS)) & (df.alb_s3<1) & (df.alb_AWS<0.95) & (df.cloud<cld_thresh) & (df.alb_s3>thresh_bare_ice)& (df.alb_AWS>thresh_bare_ice) )
+x=df.alb_s3[v] ; y=df.alb_AWS[v]
 
 RMSD_snow=np.sqrt(np.mean((y-x)**2))
 bias_snow=np.mean(y-x)
@@ -93,8 +76,8 @@ print('snow bias %.3f'%bias_snow)
 print('snow RMSD %.3f'%RMSD_snow)
 
 # compute RMSD for bare ice
-v=( (np.isfinite(df.alb_sat)) & (np.isfinite(df.alb_AWS)) & (df.alb_sat<1) & (df.alb_AWS<0.95) & (df.cloud<cld_thresh) & (df.alb_sat<=thresh_bare_ice)& (df.alb_AWS<=thresh_bare_ice) )
-x=df.alb_sat[v] ; y=df.alb_AWS[v]
+v=( (np.isfinite(df.alb_s3)) & (np.isfinite(df.alb_AWS)) & (df.alb_s3<1) & (df.alb_AWS<0.95) & (df.cloud<cld_thresh) & (df.alb_s3<=thresh_bare_ice)& (df.alb_AWS<=thresh_bare_ice) )
+x=df.alb_s3[v] ; y=df.alb_AWS[v]
 
 RMSD_ice=np.sqrt(np.mean((y-x)**2))
 bias_ice=np.mean(y-x)
@@ -108,8 +91,8 @@ print('ice bias %.3f'%bias_ice)
 print('ice RMSD %.3f'%RMSD_ice)
 
 # all cases
-v=( (np.isfinite(df.alb_sat)) & (np.isfinite(df.alb_AWS)) & (df.alb_sat<1) & (df.alb_AWS<0.95) & (df.cloud<cld_thresh) )
-x=df.alb_sat[v]
+v=( (np.isfinite(df.alb_s3)) & (np.isfinite(df.alb_AWS)) & (df.alb_s3<1) & (df.alb_AWS<0.95) & (df.cloud<cld_thresh) )
+x=df.alb_s3[v]
 y=df.alb_AWS[v]
 names_z=df.site[v]
 
@@ -184,7 +167,7 @@ if do_fit:
     # print((b + m * xx[0])-(b + m * xx[1]))
     plt.plot(xx_ice, b_ice + m_ice * xx_ice, '--',c='k',linewidth=2,label='fit')#', in-situ = %.3f'%m+' + %.3f'%b)
     
-plt.xlabel(f'{sensor} v{ver} {var}',fontsize=fs)
+plt.xlabel(f'SICE v{ver} {var}',fontsize=fs)
 plt.ylabel('in-situ albedo',fontsize=fs)
 
 countx=np.zeros(n_AWS)
@@ -262,11 +245,11 @@ plt.text(xx0, yy0, cwd.replace('/Users/jason/Dropbox/S3/',''),
         transform=ax.transAxes,zorder=20,ha='left') # 
 # plt.legend()
 
-ly='x'
+ly='p'
 
 if ly == 'x':plt.show()
 
 if ly == 'p':
-    figname=f'./Figs/validation_daily_scatterplots/{sensor}_{var}_{ver}_{cld_thresh}.png' 
+    figname=f'./Figs/validation_daily_scatterplots/{var}_{ver}_{cld_thresh}.png' 
     plt.savefig(figname, bbox_inches='tight', dpi=150)
     
